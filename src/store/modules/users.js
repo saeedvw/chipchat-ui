@@ -67,6 +67,7 @@ const mutations = {
   logout(state) {
     state.user = null;
     state.token = "";
+    Router.push("/login");
   },
   setUser(state, user) {
     state.user = user;
