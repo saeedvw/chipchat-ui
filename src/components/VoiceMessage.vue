@@ -28,7 +28,7 @@
       </div>
     </div>
     <audio
-      :src="'http://localhost:8888/messages/attachment/' + attachment._id"
+      :src="`${api_url}/messages/attachment/${attachment._id}`"
       ref="audio"
     ></audio>
   </div>
@@ -55,6 +55,9 @@ export default {
       const mins = Math.floor(this.currentTime / 60);
       const secs = this.currentTime - mins * 60;
       return `${padNum(mins, 2)}:${padNum(Math.round(secs), 2)}`;
+    },
+    api_url() {
+      return process.env.VUE_APP_API_URL;
     },
   },
   mounted() {

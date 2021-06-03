@@ -1,9 +1,11 @@
 import axios from "axios";
 
+const api = process.env.VUE_APP_API_URL;
+console.log({ api });
 function Login(username, password) {
   return new Promise((resolve, reject) => {
     axios({
-      url: "http://localhost:8888/user/login",
+      url: `${api}/user/login`,
       method: "POST",
       data: { username, password },
     })
@@ -19,8 +21,9 @@ function Login(username, password) {
 }
 
 function Me() {
+  console.log(process.env);
   return new Promise((resolve, reject) => {
-    axios({ url: "http://localhost:8888/user/me", method: "GET" })
+    axios({ url: `${api}/user/me`, method: "GET" })
       .then((res) => {
         console.log(res);
         resolve(res.data);
@@ -34,7 +37,7 @@ function Me() {
 function SearchByUsername(username) {
   return new Promise((resolve, reject) => {
     axios({
-      url: "http://localhost:8888/user/search/" + username,
+      url: `${api}/user/search/${username}`,
       method: "GET",
     })
       .then((res) => {

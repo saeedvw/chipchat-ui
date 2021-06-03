@@ -1,6 +1,7 @@
 import axios from "axios";
 
 //function GetMessages(room) {}
+const api = process.env.VUE_APP_API_URL;
 
 function UploadAttachment(data, progressCb) {
   return new Promise((resolve, reject) => {
@@ -8,7 +9,7 @@ function UploadAttachment(data, progressCb) {
     fd.append("data", data.blob);
     fd.append("roomId", data.roomId);
     axios({
-      url: "http://localhost:8888/messages/upload",
+      url: `${api}/messages/upload`,
       method: "POST",
       headers: { "Content-Type": "multipart/form-data" },
       data: fd,

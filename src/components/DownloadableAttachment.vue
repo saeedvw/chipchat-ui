@@ -13,7 +13,7 @@
       <a
         class="file_download_link"
         download
-        :href="'http://localhost:8888/messages/attachment/' + attachment._id"
+        :href="`${api_url}/messages/attachment/${attachment._id}`"
         >Save File</a
       >
     </div>
@@ -29,6 +29,11 @@ export default {
   },
   methods: {
     humanFileSize: humanFileSize,
+  },
+  computed: {
+    api_url() {
+      return process.env.VUE_APP_API_URL;
+    },
   },
 };
 </script>

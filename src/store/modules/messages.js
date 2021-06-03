@@ -2,6 +2,8 @@ import moment from "moment";
 import io from "socket.io-client";
 import { UploadAttachment } from "../../services/Message";
 
+const socketServer = process.env.VUE_APP_SOCKETIO_SERVER;
+
 const state = {
   messages: [],
   socket: null,
@@ -23,7 +25,7 @@ const getters = {
 
 const actions = {
   connectSocket({ commit, rootState, dispatch }) {
-    const connection = io("http://localhost:8888", {
+    const connection = io(`${socketServer}`, {
       query: {
         auth_token: rootState.users.token,
       },

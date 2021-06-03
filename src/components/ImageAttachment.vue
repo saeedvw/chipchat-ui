@@ -1,9 +1,6 @@
 <template>
   <div class="image_attachment">
-    <img
-      :src="'http://localhost:8888/messages/attachment/' + attachment._id"
-      alt=""
-    />
+    <img :src="`${api_url}/messages/attachment/${attachment._id}`" alt="" />
   </div>
 </template>
 <script>
@@ -11,6 +8,11 @@ export default {
   name: "ImageAttachment",
   props: {
     attachment: Object,
+  },
+  computed: {
+    api_url() {
+      return process.env.VUE_APP_API_URL;
+    },
   },
 };
 </script>
