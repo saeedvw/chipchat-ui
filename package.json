@@ -2,6 +2,7 @@
   "name": "chipchat",
   "version": "0.1.0",
   "private": true,
+  "repository": "https://github.com/saeedvw/chipchat-ui.git",
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build",
@@ -10,9 +11,6 @@
   "dependencies": {
     "@dicebear/avatars": "^4.6.4",
     "@dicebear/avatars-bottts-sprites": "^4.6.4",
-    "@dicebear/avatars-identicon-sprites": "^4.6.4",
-    "@dicebear/avatars-jdenticon-sprites": "^4.6.4",
-    "@dicebear/avatars-male-sprites": "^4.6.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "anchorme": "^2.1.2",
