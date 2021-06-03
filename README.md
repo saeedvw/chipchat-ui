@@ -2,6 +2,8 @@
 ## Description
 This is the frontend of a web based chat application that i built in a short period of time to sharpen my web development skills, I built this app with [VueJS](https://vuejs.org) on the frontend and [NodeJS](https://nodejs.org) on the backend, i tried to keep it as simple as posible.
 
+** You can access a demo (HERE)[https://chipchat.netlify.app/] **
+
 ![Screenshot of Chipchat in action](./screenshots/screenshot_1.png)
 ## Project setup
 
