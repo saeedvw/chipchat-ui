@@ -1,4 +1,3 @@
-import moment from "moment";
 import io from "socket.io-client";
 import { UploadAttachment } from "../../services/Message";
 
@@ -11,15 +10,7 @@ const state = {
 
 const getters = {
   messages: (state) => {
-    return state.messages.map((message) => {
-      return {
-        from: message.from,
-        message: {
-          ...message.message,
-          createdAt: moment(message.message.createdAt).fromNow(),
-        },
-      };
-    });
+    return state.messages;
   },
 };
 

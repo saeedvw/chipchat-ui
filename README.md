@@ -41,5 +41,10 @@ npm run build
 npm run lint
 ```
 
+### Todo
+* [ X ] ~~Fix Voice recording cancel button.~~
+* [  ] Fix Responsiveness issues.
+
+
 ### License
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html

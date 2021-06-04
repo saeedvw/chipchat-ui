@@ -46,7 +46,7 @@
     />
     <transition name="v_msg_ctrls_slide">
       <div class="voice_message_controls" v-if="recording">
-        <div class="cancel_voice_message bg-danger">
+        <div @click="cancelRecording" class="cancel_voice_message bg-danger">
           <fa-icon icon="times"></fa-icon>
         </div>
         <div class="voice_message_time">{{ recording_time }}</div>
@@ -74,7 +74,6 @@ export default {
           ? Math.floor(this.recording_seconds / 60)
           : 0;
       const secs = this.recording_seconds - mins * 60;
-      console.log({ padNum });
       return `${padNum(mins, 2)}:${padNum(secs, 2)}`;
     },
   },
@@ -87,7 +86,8 @@ export default {
       mediaRecorder: null,
       streamObject: null,
       recording: false,
-      recording_seconds: 32,
+      recording_seconds: 0,
+      recordingCanceled: false,
     };
   },
   created() {},
@@ -95,7 +95,6 @@ export default {
   methods: {
     ...mapActions(["uploadAttachment"]),
     textAreaInput(e) {
-      console.log(e.target.innerText);
       this.text = e.target.innerText;
     },
     textAreaKeyDown(e) {
@@ -127,27 +126,41 @@ export default {
     },
     onFileUploadChange() {
       const files = this.$refs.file_input.files;
-      console.log(this.$refs.file_input.files);
       if (files.length > 0) {
         this.uploadAttachment({ blob: files[0], roomId: this.currentRoom });
       }
     },
-    async mediaRecorderOnStop() {
+    async cancelRecording() {
       if (this.recording) {
+        console.log("CANCELING RECORDING");
+        this.recordingCanceled = true;
+        await this.stopRecording();
+      }
+    },
+    async mediaRecorderOnStop() {
+      console.log("On stop");
+      if (this.recording) {
+        console.log("is recording");
         const audioData = new Blob(this.audioRecordingChunk, {
           type: "audio/wav",
         });
-        this.uploadAttachment({ blob: audioData, roomId: this.currentRoom });
+        if (!this.recordingCanceled) {
+          this.uploadAttachment({ blob: audioData, roomId: this.currentRoom });
+        }
+        this.recordingCanceled = false;
         this.audioRecordingChunk = [];
         this.recording = false;
         this.mediaRecorder = null;
         this.streamObject.getAudioTracks().forEach((t) => t.stop());
       }
+      console.log("Streamobj is ", this.streamObject);
       this.streamObject.getAudioTracks().forEach((t) => t.stop());
       this.streamObject = null;
+      console.log("now is ", this.streamObject);
     },
     mediaRecorderOnDataAvailable(ev) {
       this.recording_seconds += 1;
+      console.log(ev);
       this.audioRecordingChunk.push(ev.data);
     },
     async getUserMicrophone() {
@@ -157,15 +170,19 @@ export default {
           channelCount: 0,
         },
       });
+      console.log("GETTING USER MICROPHONE", this.streamObject);
       this.streamObject = streamObj;
+      console.log("GOT USER MICROPHONE", this.streamObject);
     },
     mediaRecorderOnStart() {
       this.recording = true;
+      this.recordingCanceled = false;
     },
     async setUpMediaRecorder() {
       if (!this.streamObject || !this.streamObject.active) {
         await this.getUserMicrophone();
       }
+      console.log("Setting up media recorder");
       this.audioRecordingChunk = [];
       const mediaRecorder = new MediaRecorder(this.streamObject);
       this.mediaRecorder = mediaRecorder;
@@ -188,7 +205,6 @@ export default {
       }
     },
     async stopRecording() {
-      console.log("IN STOP RECORDING FUNC");
       if (this.mediaRecorder && this.mediaRecorder.state == "recording") {
         this.mediaRecorder.stop();
       }
