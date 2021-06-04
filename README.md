@@ -44,6 +44,7 @@ npm run lint
 ### Todo
 - [x] ~~Fix Voice recording cancel button.~~
 - [ ] Fix Responsiveness issues.
+- [ ] Add Notifications Support.
 
 
 ### License
